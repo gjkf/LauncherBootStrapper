@@ -1,0 +1,1 @@
+Bootstrapper for the Italian Minecraft Launcher.

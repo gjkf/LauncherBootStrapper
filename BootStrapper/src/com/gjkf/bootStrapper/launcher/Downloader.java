@@ -22,6 +22,8 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
+import com.gjkf.bootStrapper.Main;
+
 public class Downloader{
 
 	public static URL url;
@@ -30,7 +32,7 @@ public class Downloader{
 	public static void download(String link) throws IOException{
 		url = new URL(link);
 		ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-		FileOutputStream fos = new FileOutputStream("information.html");
+		FileOutputStream fos = new FileOutputStream(Main.currVersion + ".jar");
 		fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 	}
 	
