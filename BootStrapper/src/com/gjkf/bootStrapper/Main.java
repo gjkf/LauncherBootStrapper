@@ -33,6 +33,7 @@ public class Main{
 	public static String folderPath = "/Users/Davide/Desktop/launcher/";
 	public static String launcherUrl = "http://update.skcraft.com/quark/launcher/versions/";
 	
+	@SuppressWarnings("static-access")
 	public static void main(String[] args){
 		
 		nextVersion = "7.10.14";
@@ -60,16 +61,21 @@ public class Main{
 		 */
 		
 		if(launcherFolder.list() == null){
-			System.out.println("Test");
+			isUpdated = thread.isUpdated(currVersion, nextVersion);
+			System.out.println("Is Updated: " + isUpdated);
+			
+			if(!isUpdated){
+				try{
+					Downloader.download(launcherUrl + thread.version + ".jar.pack");
+				}catch(IOException e) {
+				}
+			}
 		}else{
 			try{
-				Downloader.download(launcherUrl + "4.2.2.jar.pack");
+				Downloader.download(launcherUrl + thread.version + ".jar.pack");
 			}catch(IOException e){
 			}
 		}
-		
-		isUpdated = thread.isUpdated(currVersion, nextVersion);
-		System.out.println("Is Updated: " + isUpdated);
 		
 	}
 	

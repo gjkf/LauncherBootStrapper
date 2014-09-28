@@ -35,6 +35,8 @@ public class Downloader{
 		ReadableByteChannel rbc = Channels.newChannel(url.openStream());
 		FileOutputStream fos = new FileOutputStream(Main.folderPath + JSonGetterThread.version + ".jar.pack");
 		fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+		
+		System.out.println("Succesfully downloaded file");
 	}
 	
 }

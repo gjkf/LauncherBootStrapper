@@ -24,7 +24,7 @@ import com.gjkf.bootStrapper.Main;
 
 public class JSonGetterThread extends Thread{
 
-	public String latest = Main.launcherUrl + "latest.json";
+	public String latest = Main.launcherUrl.substring(0, Main.launcherUrl.length() - 9) + "latest.json";
 
 	public URL url;
 	
