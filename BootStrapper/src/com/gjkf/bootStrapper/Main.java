@@ -43,10 +43,6 @@ public class Main{
 			}
 		}
 		
-		/*
-		 * Checks if there's already a launcher
-		 */
-		
 		/*if(launcherFolder.list()[0] != null){
 			
 		}*/
