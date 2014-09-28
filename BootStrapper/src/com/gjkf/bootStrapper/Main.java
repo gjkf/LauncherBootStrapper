@@ -17,7 +17,9 @@
 package com.gjkf.bootStrapper;
 
 import java.io.File;
+import java.io.IOException;
 
+import com.gjkf.bootStrapper.launcher.Downloader;
 import com.gjkf.bootStrapper.thread.JSonGetterThread;
 
 public class Main{
@@ -28,14 +30,21 @@ public class Main{
 	public static boolean isUpdated = false;
 	
 	public static String nextVersion, currVersion;
+	public static String folderPath = "/Users/Davide/Desktop/launcher/";
+	public static String launcherUrl = "http://update.skcraft.com/quark/launcher/versions/";
 	
 	public static void main(String[] args){
+		
+		nextVersion = "7.10.14";
+		currVersion = "3.22.10";
+		
+		launcherFolder = new File(folderPath.substring(0, folderPath.length()-1));
 		
 		/*
 		 * Checks if there's already the launcher folder. If not then it creates it.
 		 */
 		
-		/*if(!launcherFolder.exists()){
+		if(!launcherFolder.exists()){
 			if(launcherFolder.mkdir()){
 				System.out.println("Succesfully created folder");
 			}else{
@@ -43,15 +52,21 @@ public class Main{
 			}
 		}
 		
-		/*if(launcherFolder.list()[0] != null){
-			
-		}*/
-		
-		nextVersion = "7.10.14";
-		currVersion = "3.22.10";
-		
 		thread = new JSonGetterThread();
 		thread.run();
+		
+		/*
+		 * Downloads the launcher in case it is not already there
+		 */
+		
+		if(launcherFolder.list() == null){
+			System.out.println("Test");
+		}else{
+			try{
+				Downloader.download(launcherUrl + "4.2.2.jar.pack");
+			}catch(IOException e){
+			}
+		}
 		
 		isUpdated = thread.isUpdated(currVersion, nextVersion);
 		System.out.println("Is Updated: " + isUpdated);

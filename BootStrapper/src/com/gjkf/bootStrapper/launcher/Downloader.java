@@ -23,6 +23,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
 import com.gjkf.bootStrapper.Main;
+import com.gjkf.bootStrapper.thread.JSonGetterThread;
 
 public class Downloader{
 
@@ -32,7 +33,7 @@ public class Downloader{
 	public static void download(String link) throws IOException{
 		url = new URL(link);
 		ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-		FileOutputStream fos = new FileOutputStream(Main.currVersion + ".jar");
+		FileOutputStream fos = new FileOutputStream(Main.folderPath + JSonGetterThread.version + ".jar.pack");
 		fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 	}
 	
