@@ -27,13 +27,14 @@ import com.gjkf.bootStrapper.thread.JSonGetterThread;
 
 public class Downloader{
 
+	public static String name = JSonGetterThread.version + ".jar.pack";
 	public static URL url;
 	
 	@SuppressWarnings("resource")
 	public static void download(String link) throws IOException{
 		url = new URL(link);
 		ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-		FileOutputStream fos = new FileOutputStream(Main.folderPath + JSonGetterThread.version + ".jar.pack");
+		FileOutputStream fos = new FileOutputStream(Main.folderPath + name);
 		fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 		
 		System.out.println("Succesfully downloaded file");
