@@ -22,6 +22,10 @@ import com.gjkf.bootStrapper.thread.JSonGetterThread;
 
 public class Main{
 
+	/*
+	 * It does not work: NPE
+	 */
+	
 	public static File launcherFolder;
 	public static JSonGetterThread thread;
 	
