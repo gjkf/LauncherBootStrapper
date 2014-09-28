@@ -58,9 +58,11 @@ public class JSonGetterThread extends Thread{
 						version = values[i].substring(1, 6);
 						System.out.println(version);
  					}
+					
 					/*
 					 * Gets the url
 					 */
+					
 					if(values[i].length() > 8 && values[i].startsWith("http", 1)){
 						updateUrl = values[i].substring(1, values[i].length()-1);
 						System.out.println(updateUrl);
@@ -86,15 +88,7 @@ public class JSonGetterThread extends Thread{
 		nextChar = nextVersion.split("\\.");
 		
 		currChar = currVersion.split("\\.");
-		/* debug
-		for(int j = 0; j < nextChar.length; j++){
-			System.out.println("NextChar: " + nextChar[j]);
-		}
-		
-		for(int j = 0; j < currChar.length; j++){
-			System.out.println("CurrChar: " + currChar[j]);
-		}
-		*/
+
 		/*
 		 * Checks if the Unicode value for the current version is less/equals/greater than the next one
 		 */

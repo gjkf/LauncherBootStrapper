@@ -41,10 +41,18 @@ public class Main{
 			}else{
 				System.out.println("Failed while creating the folder");
 			}
+		}
+		
+		/*
+		 * Checks if there's already a launcher
+		 */
+		
+		/*if(launcherFolder.list()[0] != null){
+			
 		}*/
 		
-		nextVersion = "4.3.2";
-		currVersion = "4.3.1";
+		nextVersion = "7.10.14";
+		currVersion = "3.22.10";
 		
 		thread = new JSonGetterThread();
 		thread.run();
