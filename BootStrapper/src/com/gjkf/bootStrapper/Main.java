@@ -22,14 +22,10 @@ import com.gjkf.bootStrapper.thread.JSonGetterThread;
 
 public class Main{
 
-	/*
-	 * It does not work: NPE
-	 */
-	
 	public static File launcherFolder;
 	public static JSonGetterThread thread;
 	
-	public static boolean isUpdated;
+	public static boolean isUpdated = false;
 	
 	public static String nextVersion, currVersion;
 	
@@ -47,14 +43,14 @@ public class Main{
 			}
 		}*/
 		
-		nextVersion = "4 2 1";
+		nextVersion = "4.3.2";
 		currVersion = "4.3.1";
 		
 		thread = new JSonGetterThread();
 		thread.run();
 		
-		isUpdated = thread.isUpdated(nextVersion, currVersion);
-		System.out.println(isUpdated);
+		isUpdated = thread.isUpdated(currVersion, nextVersion);
+		System.out.println("Is Updated: " + isUpdated);
 		
 	}
 	

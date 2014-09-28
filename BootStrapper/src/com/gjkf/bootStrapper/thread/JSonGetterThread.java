@@ -79,37 +79,35 @@ public class JSonGetterThread extends Thread{
 	 * @param the actual version
 	 * @return true if the 1st is older than the 2nd
 	 */
-	public boolean isUpdated(String nextVersion, String currVersion){
-		System.out.println(nextVersion);
-		System.out.println(currVersion);
-		
+	public boolean isUpdated(String currVersion, String nextVersion){
 		String[] nextChar;
 		String[] currChar;
 		
-		nextChar = nextVersion.split(" ");
+		nextChar = nextVersion.split("\\.");
 		
 		currChar = currVersion.split("\\.");
-		
-		System.err.println(nextChar.length);
-		System.err.println(currChar.length);
-		
+		/* debug
 		for(int j = 0; j < nextChar.length; j++){
-			System.out.println(nextChar[j]);
+			System.out.println("NextChar: " + nextChar[j]);
 		}
 		
 		for(int j = 0; j < currChar.length; j++){
-			System.out.println(currChar[j]);
+			System.out.println("CurrChar: " + currChar[j]);
 		}
-		
-		if(Integer.getInteger(nextChar[0]) <= Integer.getInteger(currChar[0])){
-			return true;
-		}else if(Integer.getInteger(nextChar[1]) <= Integer.getInteger(currChar[1])){
-			return true;
-		}else if(Integer.getInteger(nextChar[2]) <= Integer.getInteger(currChar[2])){
-			return true;
-		}else{
+		*/
+		/*
+		 * Checks if the Unicode value for the current version is less/equals/greater than the next one
+		 */
+		if(currChar[0].compareTo(nextChar[0]) >= 0){
+			if(currChar[1].compareTo(nextChar[1]) >= 0){
+				if(currChar[2].compareTo(nextChar[2]) >= 0){
+					return true;
+				}
+				return false;
+			}
 			return false;
 		}
+		return false;
 	}
 	
 }
