@@ -31,7 +31,8 @@ public class Main{
 	public static boolean isUpdated = false;
 
 	public static String nextVersion, currVersion;
-	public static String folderPath = "/Users/Davide/Desktop/launcher/";
+	public static String folderPath = //"/Users/Davide/Desktop/launcher/"; 
+	Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "launcher/";
 	public static String launcherUrl = "http://update.skcraft.com/quark/launcher/versions/";
 
 	@SuppressWarnings("static-access")
@@ -40,21 +41,22 @@ public class Main{
 		thread = new JSonGetterThread();
 		thread.run();
 
-		nextVersion = "7.10.14";
-		currVersion = "3.22.10";
-
-		launcherFolder = new File(folderPath.substring(0, folderPath.length()-1));
+		//launcherFolder = new File(folderPath.substring(0, folderPath.length()-1));
+		
+		launcherFolder = new File(folderPath.split(".jar")[0]);
 
 		/*
 		 * Checks if there's already the launcher folder. If not then it creates it.
 		 */
 
 		if(!launcherFolder.exists()){
+			
 			if(launcherFolder.mkdir()){
 				System.out.println("Succesfully created folder");
 			}else{
 				System.out.println("Failed while creating the folder");
 			}
+			
 		}
 		
 		/*
@@ -62,9 +64,11 @@ public class Main{
 		 */
 
 		if(launcherFolder.listFiles() == null){
+			
 			try{
 				Downloader.download(launcherUrl + thread.version + ".jar.pack");
 			}catch(IOException e){
+			
 			}
 		}else{
 			/*
@@ -84,12 +88,14 @@ public class Main{
 				System.out.println("Is Updated: " + isUpdated);
 				
 			}
+			
 			if(!isUpdated){
 				try{
 					Downloader.download(launcherUrl + thread.version + ".jar.pack");
 				}catch(IOException e) {
 				}
 			}
+			
 		}
 
 	}
