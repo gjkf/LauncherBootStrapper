@@ -1,1 +1,1 @@
-Bootstrapper for the Italian Minecraft Launcher.
+Bootstrapper for the Italian Feed the Beast Minecraft Launcher.
