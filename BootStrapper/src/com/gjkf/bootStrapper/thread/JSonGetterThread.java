@@ -79,10 +79,10 @@ public class JSonGetterThread extends Thread{
 	}
 	
 	/*
-	 * Checks if the first version is bigger then the 2nd
+	 * Checks if the 1st version is bigger then the 2nd
+	 * @param the current version
 	 * @param the next version
-	 * @param the actual version
-	 * @return true if the 1st is older than the 2nd
+	 * @return true if the 1st is older than the 2nd, false otherwise
 	 */
 	public boolean isUpdated(String currVersion, String nextVersion){
 		String[] nextChar;

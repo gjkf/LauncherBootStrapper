@@ -14,7 +14,7 @@
  * this program; if not, see <http://www.gnu.org/licenses>.
  */
 
-package com.gjkf.bootStrapper.launcher;
+package com.gjkf.bootStrapper.launcherUtils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
