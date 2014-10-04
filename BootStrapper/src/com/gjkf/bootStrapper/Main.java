@@ -19,6 +19,7 @@ package com.gjkf.bootStrapper;
 import java.io.File;
 import java.io.IOException;
 
+import com.gjkf.bootStrapper.gui.View;
 import com.gjkf.bootStrapper.launcherUtils.Downloader;
 import com.gjkf.bootStrapper.thread.JSonGetterThread;
 
@@ -38,7 +39,7 @@ public class Main{
 	
 	@SuppressWarnings("static-access")
 	public static void main(String[] args){
-
+		
 		System.out.println(folderPath);
 
 		thread = new JSonGetterThread();
@@ -102,12 +103,13 @@ public class Main{
 			if(!isUpdated){
 				try{
 					Downloader.download(launcherUrl + thread.version + ".jar.pack");
-				}catch(IOException e) {
-				}
+				}catch(IOException e){}
 			}
 
 		}
-
+		
+		View.init();
+		
 	}
 
 }
