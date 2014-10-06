@@ -72,11 +72,15 @@ public class View{
 			public void mouseDown(MouseEvent e){
 				Main.folderPath = textField.getText();
 				System.out.println(textField.getText());
+				shell.close();
 				display.close();
-				display.dispose();
 			}
 		});
 	}
+	
+	/*
+	 * Puts the shell at the center of the screen, just aestethical
+	 */
 
 	private static void center(){
 		org.eclipse.swt.graphics.Rectangle bds = shell.getDisplay().getBounds();

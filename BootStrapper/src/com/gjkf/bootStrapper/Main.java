@@ -19,8 +19,6 @@ package com.gjkf.bootStrapper;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.swt.widgets.Display;
-
 import com.gjkf.bootStrapper.gui.View;
 import com.gjkf.bootStrapper.launcherUtils.Downloader;
 import com.gjkf.bootStrapper.thread.JSonGetterThread;
@@ -33,30 +31,28 @@ public class Main{
 
 	public static boolean isUpdated = false;
 
-	public static String nextVersion, currVersion;
+	public static String nextVersion, currVersion, folderName;
 	public static String folderPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "launcher/";
 	public static String launcherUrl = "http://update.skcraft.com/quark/launcher/versions/";
 
-	public static String folderName;
-	
-	public static Display display;
-	
 	@SuppressWarnings("static-access")
 	public static void main(String[] args){
-		
-		if(args[0].equals("-e")){
-			View.init();
+
+		if(args.length != 0){
+			if(args[0].equals("-e")){
+				View.init();
+			}
 		}
-		
+
 		System.out.println(folderPath);
 
 		thread = new JSonGetterThread();
 		thread.run();
 
 		//launcherFolder = new File(folderPath.substring(0, folderPath.length()-1));
-		
+
 		folderName = folderPath;
-		
+
 		launcherFolder = new File(folderName + "/");
 
 		System.out.println(launcherFolder.getPath() + " = " + "launcherFolderPath");
@@ -86,13 +82,13 @@ public class Main{
 			}catch(IOException e){
 
 			}
-			
+
 		}else{
-			
+
 			/*
 			 * If the folder's empty it checks everything
 			 */
-			
+
 			if(launcherFolder.listFiles() == null){
 				currVersion = launcherFolder.listFiles()[0].getName().substring(0, launcherFolder.listFiles()[0].getName().length() - 9);
 				nextVersion = JSonGetterThread.version;
@@ -115,7 +111,7 @@ public class Main{
 			}
 
 		}
-		
+
 	}
 
 }
