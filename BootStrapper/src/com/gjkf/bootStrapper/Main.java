@@ -19,6 +19,8 @@ package com.gjkf.bootStrapper;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.swt.widgets.Display;
+
 import com.gjkf.bootStrapper.gui.View;
 import com.gjkf.bootStrapper.launcherUtils.Downloader;
 import com.gjkf.bootStrapper.thread.JSonGetterThread;
@@ -37,8 +39,14 @@ public class Main{
 
 	public static String folderName;
 	
+	public static Display display;
+	
 	@SuppressWarnings("static-access")
 	public static void main(String[] args){
+		
+		if(args[0].equals("-e")){
+			View.init();
+		}
 		
 		System.out.println(folderPath);
 
@@ -46,12 +54,12 @@ public class Main{
 		thread.run();
 
 		//launcherFolder = new File(folderPath.substring(0, folderPath.length()-1));
-
-		folderName = folderPath.split("/launcher")[0];
 		
-		launcherFolder = new File(folderName);
+		folderName = folderPath;
+		
+		launcherFolder = new File(folderName + "/");
 
-		System.out.println(launcherFolder.getPath());
+		System.out.println(launcherFolder.getPath() + " = " + "launcherFolderPath");
 
 		/*
 		 * Checks if there's already the launcher folder. If not then it creates it.
@@ -74,7 +82,7 @@ public class Main{
 		if(launcherFolder.listFiles() == null){
 
 			try{
-				Downloader.download(launcherUrl + thread.version + ".jar.pack");
+				Downloader.download(launcherUrl + thread.version + ".jar.pack", launcherFolder);
 			}catch(IOException e){
 
 			}
@@ -102,13 +110,11 @@ public class Main{
 
 			if(!isUpdated){
 				try{
-					Downloader.download(launcherUrl + thread.version + ".jar.pack");
+					Downloader.download(launcherUrl + thread.version + ".jar.pack", launcherFolder);
 				}catch(IOException e){}
 			}
 
 		}
-		
-		View.init();
 		
 	}
 

@@ -16,13 +16,13 @@
 
 package com.gjkf.bootStrapper.launcherUtils;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
-import com.gjkf.bootStrapper.Main;
 import com.gjkf.bootStrapper.thread.JSonGetterThread;
 
 public class Downloader{
@@ -31,13 +31,13 @@ public class Downloader{
 	public static URL url;
 	
 	@SuppressWarnings("resource")
-	public static void download(String link) throws IOException{
+	public static void download(String link, File folder) throws IOException{
 		url = new URL(link);
 		ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-		FileOutputStream fos = new FileOutputStream(Main.folderPath + name);
+		FileOutputStream fos = new FileOutputStream(folder + "/" + name);
 		fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 		
-		System.out.println("Succesfully downloaded file");
+		System.out.println("Succesfully downloaded file at: " + folder);
 	}
 	
 }
