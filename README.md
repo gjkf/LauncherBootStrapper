@@ -1,6 +1,6 @@
 Bootstrapper for the Italian Feed the Beast Minecraft Launcher.
 
-For Windows Users
+###For Windows Users
 
 By default it will create a folder in the same directory where the .jar is executed.
 
@@ -8,7 +8,7 @@ In order to access the advanced menu, you need to launch the jar with the extra 
 
 java -jar bootStrapper.jar -e
 
-For Mac Users
+###For Mac Users
 
 By default it will create a folder in the same directory where the .jar is executed.
 
@@ -18,7 +18,7 @@ java -XstartOnFirstThread -jar bootStrapper.jar -e
 
 "-XstartOnFirstThread" is required in order for SWT to work.
 
-Known issues:
+###Known issues:
 
 On Mac it will just sit there and do nothing when launched the advanced version, not sure why.
 
