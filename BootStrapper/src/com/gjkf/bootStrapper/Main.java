@@ -19,6 +19,8 @@ package com.gjkf.bootStrapper;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.swt.widgets.Display;
+
 import com.gjkf.bootStrapper.gui.View;
 import com.gjkf.bootStrapper.launcherUtils.Downloader;
 import com.gjkf.bootStrapper.thread.JSonGetterThread;
@@ -45,9 +47,11 @@ public class Main{
 			}
 		}
 
-		System.out.println(hasExtraArgs);
+		System.out.println("Has Extra Args: " + hasExtraArgs);
 		
 		if(hasExtraArgs){
+			
+			View.display = new Display();
 			
 			View.init();
 			

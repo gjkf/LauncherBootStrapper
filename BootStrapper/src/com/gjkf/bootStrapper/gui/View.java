@@ -17,6 +17,7 @@
 package com.gjkf.bootStrapper.gui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Button;
@@ -26,20 +27,20 @@ import org.eclipse.swt.widgets.Text;
 
 public class View{
 
-	private static Display display;
+	public static Display display;
 	private static Shell shell;
 
-	private static Text pathField;
-	private static Text nameField;
+	private static Text pathField, nameField;
+	
 	private static Button doneButton;
+	
+	private static CLabel nameLabel, pathLabel;
 	
 	private static String path, name;
 
 	private static boolean isDone = false;
 	
 	public static void init(){
-		
-		display = new Display();
 
 		shell = new Shell(display);
 		shell.setSize(500, 300);
@@ -52,8 +53,16 @@ public class View{
 		nameField = new Text(shell, SWT.SHADOW_IN);
 		nameField.setBounds(20, 70, 250, 30);
 
+		pathLabel = new CLabel(shell, SWT.SHADOW_ETCHED_IN);
+		pathLabel.setBounds(300, 30, 200, 30);
+		pathLabel.setText("Path of the Folder");
+		
+		nameLabel = new CLabel(shell, SWT.SHADOW_ETCHED_IN);
+		nameLabel.setBounds(300, 37, 200, 100);
+		nameLabel.setText("Name of the Folder");
+		
 		doneButton = new Button(shell, SWT.PUSH);
-		doneButton.setBounds(15, 110, 100, 30);
+		doneButton.setBounds(15, 110, 200, 30);
 		doneButton.setText("Done");
 
 		listeners();
