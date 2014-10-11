@@ -24,16 +24,19 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import com.gjkf.bootStrapper.Main;
-
 public class View{
 
-	public static Display display;
-	public static Shell shell;
+	private static Display display;
+	private static Shell shell;
 
-	public static Text textField;
-	public static Button doneButton;
+	private static Text pathField;
+	private static Text nameField;
+	private static Button doneButton;
+	
+	private static String path, name;
 
+	private static boolean isDone = false;
+	
 	public static void init(){
 		
 		display = new Display();
@@ -43,11 +46,14 @@ public class View{
 		shell.setText("Path Selector");
 		shell.setLayout(null);
 
-		textField = new Text(shell, SWT.SHADOW_ETCHED_IN);
-		textField.setBounds(20, 30, 250, 30);
+		pathField = new Text(shell, SWT.SHADOW_IN);
+		pathField.setBounds(20, 30, 250, 30);
+		
+		nameField = new Text(shell, SWT.SHADOW_IN);
+		nameField.setBounds(20, 70, 250, 30);
 
 		doneButton = new Button(shell, SWT.PUSH);
-		doneButton.setBounds(15, 60, 100, 30);
+		doneButton.setBounds(15, 110, 100, 30);
 		doneButton.setText("Done");
 
 		listeners();
@@ -61,6 +67,18 @@ public class View{
 		}
 		display.dispose();
 	}
+
+	public static String getPath(){
+		return path;
+	}
+	
+	public static String getName(){
+		return name;
+	}
+	
+	public static boolean isDone(){
+		return isDone;
+	}
 	
 	/*
 	 * Listeners from SWT
@@ -70,8 +88,11 @@ public class View{
 		doneButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e){
-				Main.folderPath = textField.getText();
-				System.out.println(textField.getText());
+				path = pathField.getText();
+				name = nameField.getText();
+				System.out.println(getPath());
+				System.out.println(getName());
+				isDone = true;
 				shell.close();
 				display.close();
 			}

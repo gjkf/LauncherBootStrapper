@@ -30,6 +30,7 @@ public class Main{
 	public static JSonGetterThread thread;
 
 	public static boolean isUpdated = false;
+	public static boolean hasExtraArgs = false;
 
 	public static String nextVersion, currVersion, folderName;
 	public static String folderPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "launcher/";
@@ -38,10 +39,21 @@ public class Main{
 	@SuppressWarnings("static-access")
 	public static void main(String[] args){
 
-		if(args.length != 0){
+		if(args.length > 0){
 			if(args[0].equals("-e")){
-				View.init();
+				hasExtraArgs = true;
 			}
+		}
+
+		System.out.println(hasExtraArgs);
+		
+		if(hasExtraArgs){
+			
+			View.init();
+			
+			folderName = View.getPath() + "/" + View.getName();
+		}else{
+			folderName = folderPath;
 		}
 
 		System.out.println(folderPath);
@@ -51,7 +63,7 @@ public class Main{
 
 		//launcherFolder = new File(folderPath.substring(0, folderPath.length()-1));
 
-		folderName = folderPath;
+		//		folderName = folderPath;
 
 		launcherFolder = new File(folderName + "/");
 

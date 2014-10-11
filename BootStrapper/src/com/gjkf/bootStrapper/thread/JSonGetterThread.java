@@ -40,7 +40,7 @@ public class JSonGetterThread extends Thread{
 		try{
 
 			/*
-			 * Reads from the given URL, it writes to the console everything it finds.
+			 * Reads from the given URL
 			 */
 
 			url = new URL(latest);
@@ -50,10 +50,11 @@ public class JSonGetterThread extends Thread{
 			String inputLine;
 			String[] values;
 			while((inputLine = in.readLine()) != null){
-				//debug System.out.println(inputLine);
+				
 				values = inputLine.split(": ");
+				
 				for(int i = 0; i < values.length; i++){
-				//debug System.err.println(values[i] + " " + i);
+					
 					/*
 					 * Gets the version
 					 */
