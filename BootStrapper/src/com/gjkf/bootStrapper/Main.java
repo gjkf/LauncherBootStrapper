@@ -37,6 +37,7 @@ public class Main{
 	public static String nextVersion, currVersion, folderName;
 	public static String folderPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "launcher/";
 	public static String launcherUrl = "http://update.skcraft.com/quark/launcher/versions/";
+	public static String updateUrl = "http://update.skcraft.com/quark/launcher/latest.json";
 
 	@SuppressWarnings("static-access")
 	public static void main(String[] args){
@@ -56,7 +57,11 @@ public class Main{
 			View.init();
 			
 			folderName = View.getPath() + "/" + View.getName();
+			updateUrl = View.getUpdateUrl();
+			launcherUrl = View.getLauncherUrl();
+		
 		}else{
+			
 			folderName = folderPath;
 		}
 

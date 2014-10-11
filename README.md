@@ -20,6 +20,6 @@ java -XstartOnFirstThread -jar bootStrapper.jar -e
 
 Known issues:
 
-On Mac it will just sit there and do nothing when launched the advanced version (see below for more details), not sure why.
+On Mac it will just sit there and do nothing when launched the advanced version, not sure why.
 
 Bootstrapper Jar (Stil in Beta): https://www.dropbox.com/s/g384ej3tedk7sz3/bootStrapper.jar?dl=0

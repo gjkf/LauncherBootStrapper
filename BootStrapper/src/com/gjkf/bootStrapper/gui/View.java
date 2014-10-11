@@ -30,15 +30,13 @@ public class View{
 	public static Display display;
 	private static Shell shell;
 
-	private static Text pathField, nameField;
+	private static Text pathField, nameField, updateUrlField, launcherUrlField;
 	
 	private static Button doneButton;
 	
-	private static CLabel nameLabel, pathLabel;
+	private static CLabel nameLabel, pathLabel, updateUrlLabel, launcherUrlLabel;
 	
-	private static String path, name;
-
-	private static boolean isDone = false;
+	private static String path, name, updateUrl, launcherUrl;
 	
 	public static void init(){
 
@@ -50,19 +48,33 @@ public class View{
 		pathField = new Text(shell, SWT.SHADOW_IN);
 		pathField.setBounds(20, 30, 250, 30);
 		
-		nameField = new Text(shell, SWT.SHADOW_IN);
-		nameField.setBounds(20, 70, 250, 30);
-
-		pathLabel = new CLabel(shell, SWT.SHADOW_ETCHED_IN);
+		pathLabel = new CLabel(shell, SWT.CENTER);
 		pathLabel.setBounds(300, 30, 200, 30);
 		pathLabel.setText("Path of the Folder");
 		
-		nameLabel = new CLabel(shell, SWT.SHADOW_ETCHED_IN);
-		nameLabel.setBounds(300, 37, 200, 100);
+		nameField = new Text(shell, SWT.SHADOW_IN);
+		nameField.setBounds(20, 70, 250, 30);
+
+		nameLabel = new CLabel(shell, SWT.CENTER);
+		nameLabel.setBounds(300, 70, 200, 30);
 		nameLabel.setText("Name of the Folder");
 		
+		updateUrlField = new Text(shell, SWT.SHADOW_IN);
+		updateUrlField.setBounds(20, 110, 250, 30);
+		
+		updateUrlLabel = new CLabel(shell, SWT.CENTER);
+		updateUrlLabel.setBounds(300, 110, 200, 30);
+		updateUrlLabel.setText("Update Url");
+		
+		launcherUrlField = new Text(shell, SWT.SHADOW_IN);
+		launcherUrlField.setBounds(20, 150, 250, 30);
+		
+		launcherUrlLabel = new CLabel(shell, SWT.CENTER);
+		launcherUrlLabel.setBounds(300, 150, 200, 30);
+		launcherUrlLabel.setText("Launcher Download Url");
+		
 		doneButton = new Button(shell, SWT.PUSH);
-		doneButton.setBounds(15, 110, 200, 30);
+		doneButton.setBounds(150, 200, 200, 30);
 		doneButton.setText("Done");
 
 		listeners();
@@ -85,8 +97,12 @@ public class View{
 		return name;
 	}
 	
-	public static boolean isDone(){
-		return isDone;
+	public static String getUpdateUrl(){
+		return updateUrl;
+	}
+	
+	public static String getLauncherUrl(){
+		return launcherUrl;
 	}
 	
 	/*
@@ -99,9 +115,9 @@ public class View{
 			public void mouseDown(MouseEvent e){
 				path = pathField.getText();
 				name = nameField.getText();
-				System.out.println(getPath());
-				System.out.println(getName());
-				isDone = true;
+				updateUrl = updateUrlField.getText();
+				launcherUrl = launcherUrlField.getText();
+				
 				shell.close();
 				display.close();
 			}
