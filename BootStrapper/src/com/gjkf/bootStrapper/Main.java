@@ -50,6 +50,10 @@ public class Main{
 
 		System.out.println("Has Extra Args: " + hasExtraArgs);
 		
+		/*
+		 * If it's in advanced mode it displays the Gui.
+		 */
+		
 		if(hasExtraArgs){
 			
 			View.display = new Display();
