@@ -119,7 +119,9 @@ public class View{
 				launcherUrl = launcherUrlField.getText();
 				
 				shell.close();
+				shell.dispose();
 				display.close();
+				display.dispose();
 			}
 		});
 	}
