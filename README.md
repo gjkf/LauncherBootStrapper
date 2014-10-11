@@ -1,5 +1,7 @@
 Bootstrapper for the Italian Feed the Beast Minecraft Launcher.
 
+Download (Stil in Beta): https://www.dropbox.com/s/g384ej3tedk7sz3/bootStrapper.jar?dl=0
+
 ###For Windows Users
 
 By default it will create a folder in the same directory where the .jar is executed.
@@ -21,5 +23,3 @@ java -XstartOnFirstThread -jar bootStrapper.jar -e
 ###Known issues:
 
 On Mac it will just sit there and do nothing when launched the advanced version, not sure why.
-
-Bootstrapper Jar (Stil in Beta): https://www.dropbox.com/s/g384ej3tedk7sz3/bootStrapper.jar?dl=0
