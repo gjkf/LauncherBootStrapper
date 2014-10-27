@@ -16,72 +16,101 @@
 
 package com.gjkf.bootStrapper;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.swt.widgets.Display;
-
-import com.gjkf.bootStrapper.gui.View;
 import com.gjkf.bootStrapper.launcherUtils.Downloader;
+import com.gjkf.bootStrapper.launcherUtils.FileHandler;
 import com.gjkf.bootStrapper.thread.JSonGetterThread;
 
 public class Main{
 
-	public static File launcherFolder;
+	private static File launcherFolder;
+	private static File configFile;
 
-	public static JSonGetterThread thread;
+	private static JSonGetterThread thread;
 
-	public static boolean isUpdated = false;
-	public static boolean hasExtraArgs = false;
+	private static boolean isUpdated = false;
 
-	public static String nextVersion, currVersion, folderName;
-	public static String folderPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "launcher/";
-	public static String launcherUrl = "http://update.skcraft.com/quark/launcher/versions/";
-	public static String updateUrl = "http://update.skcraft.com/quark/launcher/latest.json";
+	private static String nextVersion, currVersion, folderName;
+	private static String folderPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+
+	//public static String launcherUrl = "http://update.skcraft.com/quark/launcher/versions/";
+	//public static String updateUrl = "http://update.skcraft.com/quark/launcher/latest.json";
+
+	private static String launcherUrl, updateUrl;
+	public static String[] defaultValues, inputLines;
+
+	private static BufferedReader reader = null;
+	private static BufferedWriter writer = null;
 
 	@SuppressWarnings("static-access")
 	public static void main(String[] args){
 
-		if(args.length > 0){
-			if(args[0].equals("-e")){
-				hasExtraArgs = true;
-			}
-		}
+		defaultValues = new String[2];
+		
+		inputLines = new String[100];
+		
+		defaultValues[0] = "Update Url: used to update the launcher, use a .json as file, like so 'http://testUrl.com/launcher/latest.json' == ";
+		defaultValues[1] = "Launcher Url: used to download the launcher == ";
 
-		System.out.println("Has Extra Args: " + hasExtraArgs);
-		
-		/*
-		 * If it's in advanced mode it displays the Gui.
-		 */
-		
-		if(hasExtraArgs){
-			
-			View.display = new Display();
-			
-			View.init();
-			
-			folderName = View.getPath() + "/" + View.getName();
-			updateUrl = View.getUpdateUrl();
-			launcherUrl = View.getLauncherUrl();
-		
-		}else{
-			
-			folderName = folderPath;
-		}
+		folderName = folderPath;
 
 		System.out.println(folderPath);
-
-		thread = new JSonGetterThread();
-		thread.run();
 
 		//launcherFolder = new File(folderPath.substring(0, folderPath.length()-1));
 
 		//		folderName = folderPath;
 
-		launcherFolder = new File(folderName + "/");
+		launcherFolder = new File(folderName + "launcher/");
+		configFile = new File(folderPath + "/configFile.txt");
 
-		System.out.println(launcherFolder.getPath() + " = " + "launcherFolderPath");
+		/*
+		 * Checks if the config file exists
+		 */
+		
+		if(!configFile.exists()){
 
+			FileHandler fileHandler = new FileHandler();
+
+			for(int i = 0; i<defaultValues.length; i++)
+			fileHandler.initFile(configFile, defaultValues[i]);
+			
+			reader = fileHandler.initReader(configFile);
+
+		}
+		
+		/*
+		 * Writes all the lines into an array
+		 */
+		
+		try{
+			while(reader.readLine() != null){
+				int i = 0;
+				
+				inputLines[i] = reader.readLine();
+				
+				System.err.println(reader.readLine());
+				
+				i++;
+			}
+			
+			for(int j = 0; j<inputLines.length; j++){
+				System.out.println("Array: " + inputLines[j]);
+			}
+
+			updateUrl = inputLines[0].split("==")[0];
+			launcherUrl = inputLines[1].split("==")[1];
+			
+		}catch(IOException e){
+			System.err.format("IOException: %s%n", e);
+		}
+		
+		System.err.println(updateUrl);
+		System.err.println(launcherUrl);
+		
 		/*
 		 * Checks if there's already the launcher folder. If not then it creates it.
 		 */
@@ -95,6 +124,9 @@ public class Main{
 			}
 
 		}
+		
+		thread = new JSonGetterThread(updateUrl);
+		thread.run();
 
 		/*
 		 * Downloads the launcher in case it is not already there and checks if it's updated, if not it downloads the newest.
@@ -103,7 +135,12 @@ public class Main{
 		if(launcherFolder.listFiles() == null){
 
 			try{
-				Downloader.download(launcherUrl + thread.version + ".jar.pack", launcherFolder);
+				if(launcherUrl.endsWith("/")){
+					Downloader.download(launcherUrl + thread.version + ".jar.pack", launcherFolder);
+				}else{
+					launcherUrl = launcherUrl + "/";
+					Downloader.download(launcherUrl + thread.version + ".jar.pack", launcherFolder);
+				}
 			}catch(IOException e){
 
 			}

@@ -20,18 +20,17 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import com.gjkf.bootStrapper.Main;
-
 public class JSonGetterThread extends Thread{
 
 	//public String latest = Main.launcherUrl.substring(0, Main.launcherUrl.length() - 9) + "latest.json";
-	public String latest = Main.updateUrl;
+	public String latest;
 
 	public URL url;
 	
 	public static String version;
 
-	public JSonGetterThread(){
+	public JSonGetterThread(String latest){
+		this.latest = latest;
 		this.setName("Bootstrapper latest JSon getter");
 		this.setDaemon(true);
 	}
