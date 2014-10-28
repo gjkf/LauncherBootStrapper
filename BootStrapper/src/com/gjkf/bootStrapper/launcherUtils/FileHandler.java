@@ -28,12 +28,12 @@ public class FileHandler{
 	private BufferedWriter writer = null;
 	private BufferedReader reader = null;
 
-	public void initFile(File file, String defaultValue){
+	public void writeToFile(File file, String string){
 
 		try{
 			initWriter(file);
 
-			writer.write(defaultValue + "\n");
+			writer.write(string + "\n");
 		}catch (IOException e){
 			System.err.format("IOException: %s%n", e);
 		}
