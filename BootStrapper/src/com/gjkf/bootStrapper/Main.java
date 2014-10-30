@@ -35,7 +35,7 @@ public class Main{
 
 	private static String nextVersion, currVersion, folderName;
 	private static String folderPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-
+	private static String configPath;
 	//public static String launcherUrl = "http://update.skcraft.com/quark/launcher/versions/";
 	//public static String updateUrl = "http://update.skcraft.com/quark/launcher/latest.json";
 
@@ -47,6 +47,11 @@ public class Main{
 	@SuppressWarnings("static-access")
 	public static void main(String[] args){
 
+		//ClassLoader loader = Main.class.getClassLoader();
+		//configPath = loader.getResource("").toString().substring(5);
+		
+		configPath = folderPath;
+		
 		String[] defaultValues;
 
 		FileHandler fileHandler = new FileHandler();
@@ -59,10 +64,10 @@ public class Main{
 		if(folderName == null)
 			folderName = folderPath;
 
-		System.out.println(folderPath);
+		System.out.println(configPath);
 
 		launcherFolder = new File(folderName + "launcher/");
-		configFile = new File(folderPath + "/configFile.txt");
+		configFile = new File(configPath + "/configFile.txt");
 
 		/*
 		 * Checks if the config file exists
@@ -84,7 +89,7 @@ public class Main{
 			}finally{
 				try{
 					writer.close();
-				}catch(IOException e){
+				}catch(Exception e){
 					e.printStackTrace();
 				}
 			}
