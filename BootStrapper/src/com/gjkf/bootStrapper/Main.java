@@ -27,7 +27,7 @@ import com.gjkf.bootStrapper.thread.JSonGetterThread;
 
 public class Main{
 
-	private static File launcherFolder, configFile, placeHolderFile;
+	private static File launcherFolder, configFile;
 
 	private static JSonGetterThread thread;
 
@@ -40,69 +40,45 @@ public class Main{
 	//public static String updateUrl = "http://update.skcraft.com/quark/launcher/latest.json";
 
 	private static String launcherUrl, updateUrl;
-	public static String[] defaultValues;
 
 	private static BufferedReader reader = null;
 	private static BufferedWriter writer = null;
-	private static BufferedReader placeHolderReader = null;
-	private static BufferedWriter placeHolderWriter = null;
 
 	@SuppressWarnings("static-access")
 	public static void main(String[] args){
-		
+
+		String[] defaultValues;
+
+		FileHandler fileHandler = new FileHandler();
+
 		defaultValues = new String[2];
 
 		defaultValues[0] = "Update Url (e.g. 'http://testUrl.com/launcher/latest.json') == ";
 		defaultValues[1] = "Launcher Url == ";
 
-		folderName = folderPath;
+		if(folderName == null)
+			folderName = folderPath;
 
 		System.out.println(folderPath);
 
 		launcherFolder = new File(folderName + "launcher/");
 		configFile = new File(folderPath + "/configFile.txt");
-		placeHolderFile = new File(folderPath + "/.configFile.txt");
-		
+
 		/*
 		 * Checks if the config file exists
 		 */
 
-		if(!placeHolderFile.exists()){
-			
-			try{
-				
-				FileHandler fileHandler = new FileHandler();
-				
-				placeHolderWriter = fileHandler.initWriter(placeHolderFile);
-				placeHolderReader = fileHandler.initReader(placeHolderFile);
-				
-				placeHolderWriter.write("### Config File for Boostrapper: set the update URL (where it checks if the launcher is Updated) and the launcher URL (where the launcher is downloaded) \n");
-				placeHolderWriter.write(defaultValues[0] + "\n");
-				placeHolderWriter.write(defaultValues[1] + "\n");
-			}catch(IOException e){
-				e.printStackTrace();
-			}finally{
-				try{
-					placeHolderWriter.close();
-				}catch(IOException e){
-					e.printStackTrace();
-				}
-			}
-
-		}
-
 		if(!configFile.exists()){
 
 			try{
-				
-				FileHandler fileHandler = new FileHandler();
-				
+
 				writer = fileHandler.initWriter(configFile);
-				reader = fileHandler.initReader(configFile);
-				
+				//reader = fileHandler.initReader(configFile);
+
 				writer.write("### Config File for Boostrapper: set the update URL (where it checks if the launcher is Updated) and the launcher URL (where the launcher is downloaded) \n");
 				writer.write(defaultValues[0] + "\n");
 				writer.write(defaultValues[1] + "\n");
+
 			}catch(IOException e){
 				e.printStackTrace();
 			}finally{
@@ -116,50 +92,48 @@ public class Main{
 		}
 
 		try{
-			
-			/*
-			 * Checking if the placeholder file is equals or not the actual usable file
-			 */
-			while(placeHolderReader.readLine() != null && reader.readLine() != null){
-				if(placeHolderReader.read() == reader.read()){
+			reader = fileHandler.initReader(configFile);
 
-					/*
-					 * Writes all the lines into an array
-					 */
+			while(reader.readLine() != null){
 
-					try{
-						
-						/*
-						 * If the current read line is not null...
-						 */
-						
-						while(reader.readLine() != null){
+				try{
+					reader = fileHandler.initReader(configFile);
 
-							System.err.println(reader.readLine());
-							System.err.println(defaultValues[0]);
+					String readLine;
 
-							/*
-							 * ... I check if the current line is equals to the default values
-							 */
-							
-							if(reader.readLine().equals(defaultValues[0])){
-								if(reader.readLine().substring(defaultValues[0].length()) != null){
-									updateUrl = reader.readLine().substring(defaultValues[0].length());
-									System.out.println(updateUrl);
-								}
-							}else if(reader.readLine().equals(defaultValues[1])){
-								if(reader.readLine().substring(defaultValues[1].length()) != null)
-									updateUrl = reader.readLine().substring(defaultValues[1].length());
-							}else{
-								break;
+					while((readLine = reader.readLine()) != null){
+						int index = 0;
+
+						//String readLine = reader.readLine();
+
+						System.out.println("ReadLine: " + readLine);
+
+						//System.out.println("Ipotetic updateUrl: " + readLine.substring(readLine.split("==")[0].length() + 3));
+
+						System.out.println("Index: " + index);
+
+						if(readLine.startsWith("Launcher")){
+
+							if(readLine.contains(defaultValues[1]) && !readLine.endsWith(".json")){
+								launcherUrl = readLine.substring(readLine.split("==")[0].length() + 3);
+								System.out.println("LauncherUrl: " + launcherUrl + " Length " + launcherUrl.length());
+							}
+
+						}else if(readLine.startsWith("Update Url")){
+
+							if(readLine.contains(defaultValues[0]) && readLine.endsWith(".json")){
+								updateUrl = readLine.substring(readLine.split("==")[0].length() + 3);
+								System.out.println("UpdateUrl: " + updateUrl + " Length " + updateUrl.length());
 							}
 
 						}
-					}catch(IOException e){
-						e.printStackTrace();
+
+						index ++;
+						
 					}
-				}else{
-					System.out.println("Nothing has changed");
+
+				}catch(Exception e){
+					e.printStackTrace();
 				}
 			}
 		}catch(IOException e1){
@@ -181,8 +155,12 @@ public class Main{
 
 		}
 
-		thread = new JSonGetterThread(updateUrl);
-		thread.run();
+		if(updateUrl != null && launcherUrl != null){
+
+			thread = new JSonGetterThread(updateUrl);
+			thread.run();
+
+		}
 
 		/*
 		 * Downloads the launcher in case it is not already there and checks if it's updated, if not it downloads the newest.
