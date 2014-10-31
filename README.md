@@ -8,6 +8,10 @@ https://www.dropbox.com/s/g384ej3tedk7sz3/bootStrapper.jar?dl=0
 
 Where the .jar is launched you'll find "configFile.txt", edit it for customization.
 
-##Known issues:
+###Known issues:
 
 None
+
+####TODO:
+
+Create the file inside the .jar, not where the .jar is launched. It'll be difficult.
