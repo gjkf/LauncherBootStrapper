@@ -33,11 +33,11 @@ public class Main{
 
 	private static boolean isUpdated = false;
 
-	private static String nextVersion, currVersion, folderName;
+	private static String nextVersion, currVersion;
 	private static String folderPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-	private static String configPath;
-	//public static String launcherUrl = "http://update.skcraft.com/quark/launcher/versions/";
+
 	//public static String updateUrl = "http://update.skcraft.com/quark/launcher/latest.json";
+	//public static String launcherUrl = "http://update.skcraft.com/quark/launcher/versions/";
 
 	private static String launcherUrl, updateUrl;
 
@@ -47,11 +47,6 @@ public class Main{
 	@SuppressWarnings("static-access")
 	public static void main(String[] args){
 
-		//ClassLoader loader = Main.class.getClassLoader();
-		//configPath = loader.getResource("").toString().substring(5);
-		
-		configPath = folderPath;
-		
 		String[] defaultValues;
 
 		FileHandler fileHandler = new FileHandler();
@@ -61,13 +56,10 @@ public class Main{
 		defaultValues[0] = "Update Url (e.g. 'http://testUrl.com/launcher/latest.json') == ";
 		defaultValues[1] = "Launcher Url == ";
 
-		if(folderName == null)
-			folderName = folderPath;
+		System.out.println("Folder Path: " + folderPath);
 
-		System.out.println(configPath);
-
-		launcherFolder = new File(folderName + "launcher/");
-		configFile = new File(configPath + "/configFile.txt");
+		launcherFolder = new File(folderPath + "launcher/");
+		configFile = new File(folderPath + "configFile.txt");
 
 		/*
 		 * Checks if the config file exists
@@ -78,7 +70,6 @@ public class Main{
 			try{
 
 				writer = fileHandler.initWriter(configFile);
-				//reader = fileHandler.initReader(configFile);
 
 				writer.write("### Config File for Boostrapper: set the update URL (where it checks if the launcher is Updated) and the launcher URL (where the launcher is downloaded) \n");
 				writer.write(defaultValues[0] + "\n");
@@ -96,6 +87,10 @@ public class Main{
 
 		}
 
+		/*
+		 * This is where all the magic happens
+		 */
+
 		try{
 			reader = fileHandler.initReader(configFile);
 
@@ -107,15 +102,12 @@ public class Main{
 					String readLine;
 
 					while((readLine = reader.readLine()) != null){
-						int index = 0;
 
 						//String readLine = reader.readLine();
 
 						System.out.println("ReadLine: " + readLine);
 
 						//System.out.println("Ipotetic updateUrl: " + readLine.substring(readLine.split("==")[0].length() + 3));
-
-						System.out.println("Index: " + index);
 
 						if(readLine.startsWith("Launcher")){
 
@@ -133,8 +125,6 @@ public class Main{
 
 						}
 
-						index ++;
-						
 					}
 
 				}catch(Exception e){
