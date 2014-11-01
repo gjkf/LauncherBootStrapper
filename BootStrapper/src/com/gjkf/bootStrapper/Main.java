@@ -16,18 +16,17 @@
 
 package com.gjkf.bootStrapper;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Scanner;
 
 import com.gjkf.bootStrapper.launcherUtils.Downloader;
-import com.gjkf.bootStrapper.launcherUtils.FileHandler;
 import com.gjkf.bootStrapper.thread.JSonGetterThread;
 
 public class Main{
 
-	private static File launcherFolder, configFile;
+	private static File launcherFolder;
 
 	private static JSonGetterThread thread;
 
@@ -41,15 +40,10 @@ public class Main{
 
 	private static String launcherUrl, updateUrl;
 
-	private static BufferedReader reader = null;
-	private static BufferedWriter writer = null;
-
-	@SuppressWarnings("static-access")
+	@SuppressWarnings({ "static-access", "resource" })
 	public static void main(String[] args){
 
 		String[] defaultValues;
-
-		FileHandler fileHandler = new FileHandler();
 
 		defaultValues = new String[2];
 
@@ -58,83 +52,42 @@ public class Main{
 
 		System.out.println("Folder Path: " + folderPath);
 
+	    InputStream is = Main.class.getResourceAsStream("/configurationFile/configFile.txt");
+		
+	    Scanner scanner = new Scanner(is);
+	    
 		launcherFolder = new File(folderPath + "launcher/");
-		configFile = new File(folderPath + "configFile.txt");
 
 		/*
-		 * Checks if the config file exists
+		 * This reads the resource file looking for urls
 		 */
+		
+		while(scanner.hasNextLine()){
+			
+			String readLine = scanner.nextLine();
+			
+			System.err.println("ReadLine: " + readLine);
+			
+			if(readLine.contains(".json")){
 
-		if(!configFile.exists()){
-
-			try{
-
-				writer = fileHandler.initWriter(configFile);
-
-				writer.write("### Config File for Boostrapper: set the update URL (where it checks if the launcher is Updated) and the launcher URL (where the launcher is downloaded) \n");
-				writer.write(defaultValues[0] + "\n");
-				writer.write(defaultValues[1] + "\n");
-
-			}catch(IOException e){
-				e.printStackTrace();
-			}finally{
-				try{
-					writer.close();
-				}catch(Exception e){
-					e.printStackTrace();
+				if(readLine.contains(defaultValues[0])){
+					updateUrl = readLine.substring(readLine.split("==")[0].length() + 3);
+					System.out.println("UpdateUrl: " + updateUrl);
 				}
+
 			}
+			
+			if(readLine.startsWith("Launcher Url")){
 
-		}
-
-		/*
-		 * This is where all the magic happens
-		 */
-
-		try{
-			reader = fileHandler.initReader(configFile);
-
-			while(reader.readLine() != null){
-
-				try{
-					reader = fileHandler.initReader(configFile);
-
-					String readLine;
-
-					while((readLine = reader.readLine()) != null){
-
-						//String readLine = reader.readLine();
-
-						System.out.println("ReadLine: " + readLine);
-
-						//System.out.println("Ipotetic updateUrl: " + readLine.substring(readLine.split("==")[0].length() + 3));
-
-						if(readLine.startsWith("Launcher")){
-
-							if(readLine.contains(defaultValues[1]) && !readLine.endsWith(".json")){
-								launcherUrl = readLine.substring(readLine.split("==")[0].length() + 3);
-								System.out.println("LauncherUrl: " + launcherUrl + " Length " + launcherUrl.length());
-							}
-
-						}else if(readLine.startsWith("Update Url")){
-
-							if(readLine.contains(defaultValues[0]) && readLine.endsWith(".json")){
-								updateUrl = readLine.substring(readLine.split("==")[0].length() + 3);
-								System.out.println("UpdateUrl: " + updateUrl + " Length " + updateUrl.length());
-							}
-
-						}
-
-					}
-
-				}catch(Exception e){
-					e.printStackTrace();
+				if(readLine.contains(defaultValues[1])){
+					launcherUrl = readLine.substring(readLine.split("==")[0].length() + 3);
+					System.out.println("LauncherUrl: " + launcherUrl);
 				}
-			}
-		}catch(IOException e1){
-			e1.printStackTrace();
-		}
 
+			}
+			
+		}
+		
 
 		/*
 		 * Checks if there's already the launcher folder. If not then it creates it.

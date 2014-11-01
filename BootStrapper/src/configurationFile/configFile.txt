@@ -1,0 +1,3 @@
+### Config File for Boostrapper: set the update URL (where it checks if the launcher is Updated) and the launcher URL (where the launcher is downloaded) 
+Update Url (e.g. 'http://testUrl.com/launcher/latest.json') == 
+Launcher Url == 
