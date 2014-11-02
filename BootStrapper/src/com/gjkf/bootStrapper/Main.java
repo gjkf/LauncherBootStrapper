@@ -55,7 +55,7 @@ public class Main{
 
 		}else if(os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0 || os.indexOf("aix") > 0){
 
-			folderPath = System.getProperty("user.home") + "/Library/Application Support/"; //Not too sure about this.
+			folderPath = System.getProperty("user.home") + "/"; //Not too sure about this.
 
 		}else{
 			throw new Exception("Your OS is not supported");
@@ -196,6 +196,5 @@ public class Main{
 
 		}
 	}
-
 
 }
