@@ -32,80 +32,125 @@ public class Main{
 
 	private static boolean isUpdated = false;
 
-	private static String nextVersion, currVersion;
+	private static String nextVersion, currVersion, launcherUrl, updateUrl, launcherName, launcherFolderName;
 	private static String folderPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 
-	//public static String updateUrl = "http://update.skcraft.com/quark/launcher/latest.json";
-	//public static String launcherUrl = "http://update.skcraft.com/quark/launcher/versions/";
+	/*
+ 		http://update.skcraft.com/quark/launcher/latest.json
+		http://update.skcraft.com/quark/launcher/versions/4.2.2.jar.pack
+	 */
 
-	private static String launcherUrl, updateUrl;
-
-	@SuppressWarnings({ "static-access", "resource" })
+	@SuppressWarnings("resource")
 	public static void main(String[] args){
+
+		folderPath = System.getProperty("user.home") + "/";
+
+		/*
+		if(os.indexOf("win") >= 0){
+
+			folderPath = "%APPDATA%";
+
+		}else if(os.indexOf("mac") >= 0){
+
+			folderPath = "~/";
+
+		}else if(os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0 || os.indexOf("aix") > 0){
+
+			folderPath = "~/";
+
+		}else{
+			throw new Exception("Your OS is not supported");
+		}*/
 
 		String[] defaultValues;
 
-		defaultValues = new String[2];
+		defaultValues = new String[4];
 
-		defaultValues[0] = "Update Url (e.g. 'http://testUrl.com/launcher/latest.json') == ";
-		defaultValues[1] = "Launcher Url == ";
+		defaultValues[0] = "Update Url (Where the program checks if the launcher is updated: e.g. 'http://testUrl.com/launcher/latest.json') ==";
+		defaultValues[1] = "Launcher Url (Where the program should download the launcher) ==";
+		defaultValues[2] = "Launcher Name (The name of the downloaded launcher, with extension) ==";
+		defaultValues[3] = "Launcher Folder Name (The name of the folder that it's created, where the launcher will be downloaded) ==";
 
 		System.out.println("Folder Path: " + folderPath);
 
-	    InputStream is = Main.class.getResourceAsStream("/configurationFile/configFile.txt");
-		
-	    Scanner scanner = new Scanner(is);
-	    
-		launcherFolder = new File(folderPath + "launcher/");
+		InputStream is = Main.class.getResourceAsStream("/configurationFile/configFile.txt");
+
+		Scanner scanner = new Scanner(is);
+
+		if(launcherFolderName != null)
+			launcherFolder = new File(folderPath + launcherFolderName + "/");
 
 		/*
-		 * This reads the resource file looking for urls
+		 * This reads the resource file looking for stuff
 		 */
-		
+
 		while(scanner.hasNextLine()){
-			
+
 			String readLine = scanner.nextLine();
-			
+
 			System.err.println("ReadLine: " + readLine);
-			
-			if(readLine.contains(".json")){
+
+			if(readLine.contains(".json") && readLine.startsWith("Update Url")){
 
 				if(readLine.contains(defaultValues[0])){
-					updateUrl = readLine.substring(readLine.split("==")[0].length() + 3);
+					updateUrl = readLine.substring(readLine.split("==")[0].length()).substring(2);
 					System.out.println("UpdateUrl: " + updateUrl);
 				}
 
 			}
-			
+
 			if(readLine.startsWith("Launcher Url")){
 
 				if(readLine.contains(defaultValues[1])){
-					launcherUrl = readLine.substring(readLine.split("==")[0].length() + 3);
+					launcherUrl = readLine.substring(readLine.split("==")[0].length()).substring(3);
 					System.out.println("LauncherUrl: " + launcherUrl);
 				}
 
 			}
-			
+
+			if(readLine.startsWith("Launcher Name")){
+
+				if(readLine.contains(defaultValues[2])){
+					launcherName = readLine.substring(readLine.split("==")[0].length()).substring(3);
+					System.out.println("LauncherName: " + launcherName);
+				}
+
+			}
+
+			if(readLine.startsWith("Launcher Folder Name")){
+
+				if(readLine.contains(defaultValues[3])){
+					launcherFolderName = readLine.substring(readLine.split("==")[0].length()).substring(3);
+
+					if(launcherFolderName != null || !launcherFolderName.equals(""))
+						launcherFolder = new File(folderPath + launcherFolderName + "/");
+
+					System.out.println("LauncherFolderName: " + launcherFolderName);
+				}
+
+			}
+
 		}
-		
 
 		/*
 		 * Checks if there's already the launcher folder. If not then it creates it.
 		 */
 
-		if(!launcherFolder.exists()){
+		if(launcherFolder != null){
+			if(!launcherFolder.exists()){
 
-			if(launcherFolder.mkdir()){
-				System.out.println("Succesfully created folder");
-			}else{
-				System.out.println("Failed while creating the folder");
+				try{
+					launcherFolder.mkdir();
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+
 			}
-
 		}
 
 		if(updateUrl != null && launcherUrl != null){
 
-			thread = new JSonGetterThread(updateUrl);
+			thread = new JSonGetterThread(updateUrl, launcherUrl);
 			thread.run();
 
 		}
@@ -114,24 +159,20 @@ public class Main{
 		 * Downloads the launcher in case it is not already there and checks if it's updated, if not it downloads the newest.
 		 */
 
-		if(launcherFolder.listFiles() == null){
+		if((launcherFolder.listFiles() == null)){
 
 			try{
 				if(launcherUrl.endsWith("/")){
-					Downloader.download(launcherUrl + thread.version + ".jar.pack", launcherFolder);
+					Downloader.download(launcherUrl, launcherFolder, launcherName);
 				}else{
 					launcherUrl = launcherUrl + "/";
-					Downloader.download(launcherUrl + thread.version + ".jar.pack", launcherFolder);
+					Downloader.download(launcherUrl, launcherFolder, launcherName);
 				}
 			}catch(IOException e){
 
 			}
 
 		}else{
-
-			/*
-			 * If the folder's empty it checks everything
-			 */
 
 			if(launcherFolder.listFiles() == null){
 				currVersion = launcherFolder.listFiles()[0].getName().substring(0, launcherFolder.listFiles()[0].getName().length() - 9);
@@ -150,12 +191,12 @@ public class Main{
 
 			if(!isUpdated){
 				try{
-					Downloader.download(launcherUrl + thread.version + ".jar.pack", launcherFolder);
+					Downloader.download(launcherUrl, launcherFolder, launcherName);
 				}catch(IOException e){}
 			}
 
 		}
-
 	}
+
 
 }

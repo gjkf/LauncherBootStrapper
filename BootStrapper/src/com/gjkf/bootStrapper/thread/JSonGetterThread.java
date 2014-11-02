@@ -23,14 +23,14 @@ import java.net.URL;
 public class JSonGetterThread extends Thread{
 
 	//public String latest = Main.launcherUrl.substring(0, Main.launcherUrl.length() - 9) + "latest.json";
-	public String latest;
+	public String updateUrl, launcherUrl;
 
 	public URL url;
 	
 	public static String version;
 
-	public JSonGetterThread(String latest){
-		this.latest = latest;
+	public JSonGetterThread(String updateUrl, String launcherUrl){
+		this.updateUrl = updateUrl;
 		this.setName("Bootstrapper latest JSon getter");
 		this.setDaemon(true);
 	}
@@ -43,7 +43,7 @@ public class JSonGetterThread extends Thread{
 			 * Reads from the given URL
 			 */
 
-			url = new URL(latest);
+			url = new URL(updateUrl);
 			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 			
 			String updateUrl;
@@ -60,7 +60,7 @@ public class JSonGetterThread extends Thread{
 					 */
 					if(values[i].length() == 8){
 						version = values[i].substring(1, 6);
-						System.out.println(version);
+						System.out.println("Version: " + version);
  					}
 					
 					/*
@@ -69,7 +69,7 @@ public class JSonGetterThread extends Thread{
 					
 					if(values[i].length() > 8 && values[i].startsWith("http", 1)){
 						updateUrl = values[i].substring(1, values[i].length()-1);
-						System.out.println(updateUrl);
+						System.out.println("ThreadUpdateUrl: " + updateUrl);
 					}
 				}
 			}

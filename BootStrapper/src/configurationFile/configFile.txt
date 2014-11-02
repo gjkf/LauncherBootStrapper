@@ -1,3 +1,6 @@
-### Config File for Boostrapper: set the update URL (where it checks if the launcher is Updated) and the launcher URL (where the launcher is downloaded) 
-Update Url (e.g. 'http://testUrl.com/launcher/latest.json') == 
-Launcher Url == 
+### Config File for Boostrapper ### 
+### Write the values IMMEDIATELY after the "==" without any space ###
+Update Url (Where the program checks if the launcher is updated: e.g. 'http://testUrl.com/launcher/latest.json') == 
+Launcher Url (Where the program should download the launcher) == 
+Launcher Name (The name of the downloaded launcher, with extension) == 
+Launcher Folder Name (The name of the folder that it's created, where the launcher will be downloaded) == 

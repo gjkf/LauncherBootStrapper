@@ -31,7 +31,7 @@ public class Downloader{
 	public static URL url;
 	
 	@SuppressWarnings("resource")
-	public static void download(String link, File folder) throws IOException{
+	public static void download(String link, File folder, String name) throws IOException{
 		url = new URL(link);
 		ReadableByteChannel rbc = Channels.newChannel(url.openStream());
 		FileOutputStream fos = new FileOutputStream(folder + "/" + name);

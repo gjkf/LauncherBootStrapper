@@ -1,12 +1,18 @@
 #Bootstrapper for Launchers.
 
-#Download (Still in Beta)
+##Download (Still in Beta)
 
 https://www.dropbox.com/s/g384ej3tedk7sz3/bootStrapper.jar?dl=0
 
-##For setters:
+###Basic Informations
 
-If you unzip the .jar, you'll find the "configurationFile" folder, inside it you'll find "configFile.txt", edit it to customize the bootStrapper. Remember to recompile the .jar after doing that.
+This is a BootStrapper that (if configured correctly) will create a folder in the user's home directory, that folder will contain the file that's downloaded.
+
+Anyone can configure it, just follow the next steps.
+
+###For setters:
+
+If you unzip the .jar, you'll find the "configurationFile" folder, inside it you'll find a file called "configFile.txt", edit it to customize the bootStrapper. Remember to recompile the .jar after doing that.
 
 ###Known issues:
 
