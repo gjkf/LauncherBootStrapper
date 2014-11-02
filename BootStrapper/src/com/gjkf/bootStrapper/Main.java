@@ -32,8 +32,8 @@ public class Main{
 
 	private static boolean isUpdated = false;
 
-	private static String nextVersion, currVersion, launcherUrl, updateUrl, launcherName, launcherFolderName;
-	private static String folderPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+	private static String nextVersion, currVersion, launcherUrl, updateUrl, launcherName, launcherFolderName, os;
+	private static String folderPath/* = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()*/;
 
 	/*
  		http://update.skcraft.com/quark/launcher/latest.json
@@ -41,26 +41,25 @@ public class Main{
 	 */
 
 	@SuppressWarnings("resource")
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 
-		folderPath = System.getProperty("user.home") + "/";
-
-		/*
+		os = System.getProperty("os.name").toLowerCase();
+		
 		if(os.indexOf("win") >= 0){
 
-			folderPath = "%APPDATA%";
+			folderPath = System.getProperty("user.home") + "/%APPDATA%/";
 
 		}else if(os.indexOf("mac") >= 0){
 
-			folderPath = "~/";
+			folderPath = System.getProperty("user.home") + "/Library/Application Support/";
 
 		}else if(os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0 || os.indexOf("aix") > 0){
 
-			folderPath = "~/";
+			folderPath = System.getProperty("user.home") + "/Library/Application Support/"; //Not too sure about this.
 
 		}else{
 			throw new Exception("Your OS is not supported");
-		}*/
+		}
 
 		String[] defaultValues;
 
